@@ -1,0 +1,78 @@
+In Spring, annotations are used extensively to configure beans, manage dependencies,
+handle transactions, and define aspects like security and caching.
+Here are some key annotations in the Spring framework and their usage:
+
+1. Component Scanning Annotations
+
+@Component: Marks a Java class as a Spring component. This is the most generic
+            stereotype annotation and can be used for any Spring-managed component.
+
+@Service: A specialized version of @Component, indicating that a class is a service.
+          It’s used to annotate classes that hold business logic.
+
+@Repository: Also a specialization of @Component, it marks a class as a data access
+            object (DAO). This annotation provides additional functionalities like exception translation.
+
+@Controller: Indicates that a particular class serves as a controller in an MVC
+             application.
+
+@RestController: A combination of @Controller and @ResponseBody. It indicates that the class is a controller where every method returns a domain object instead of a view.
+
+2. Dependency Injection Annotations
+
+@Autowired: Allows Spring to resolve and inject collaborating beans into your bean.
+
+@Qualifier: Used alongside @Autowired to specify which bean should be injected when
+            there are multiple beans of the same type.
+
+@Value: Injects values into fields, typically from property files.
+
+@Inject: JSR-330 annotation that serves the same purpose as @Autowired.
+
+3. Configuration and Bean Definition Annotations
+
+@Configuration: Indicates that a class can be used by the Spring IoC container
+                as a source of bean definitions.
+
+@Bean: Indicates that a method produces a bean to be managed by the Spring container.
+
+@Profile: Specifies that a bean is eligible for registration when one or more
+          specified profiles are active.
+
+4. Aspect-Oriented Programming (AOP) Annotations
+
+@Aspect: Declares a class as an aspect, which is a modularization of a concern that cuts
+         across multiple classes.
+@Before, @After, @Around: Used to define advice that runs before, after, or around method execution.
+
+5. Transaction Management Annotations
+
+@Transactional: Marks a method or class as transactional, allowing the Spring framework to manage transactions around method execution.
+6. Spring MVC Annotations
+@RequestMapping: Maps HTTP requests to handler methods of MVC and REST controllers.
+
+@GetMapping, @PostMapping, @PutMapping, @DeleteMapping: Shortcut annotations for
+             @RequestMapping that map specific HTTP methods to controller methods.
+
+@ResponseBody: Indicates that the return value of a method should be used
+               as the response body of the request.
+
+@PathVariable: Used to extract values from the URI.
+
+@RequestParam: Used to extract query parameters from the request.
+
+7. Spring Boot Annotations
+
+@SpringBootApplication: A convenience annotation that combines @Configuration, @EnableAutoConfiguration,
+                        and @ComponentScan with their default attributes.
+
+8. Validation Annotations
+
+@Valid: Marks a method parameter or return value for validation.
+
+@NotNull, @Size, @Pattern, etc.: Hibernate Validator annotations used to specify
+                                    validation constraints on fields.
+
+
+
+These annotations provide a powerful and flexible way to manage your application's configuration, dependency injection, and behavior.
