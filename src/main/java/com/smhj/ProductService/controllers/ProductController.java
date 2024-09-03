@@ -1,13 +1,13 @@
 package com.smhj.ProductService.controllers;
 
+import com.smhj.ProductService.dtos.ExceptionDto;
+import com.smhj.ProductService.exceptions.ProductNotFoundException;
 import com.smhj.ProductService.models.Product;
 import com.smhj.ProductService.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -44,7 +44,7 @@ public class ProductController {
 
     // request path
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable("id") Long id){
+    public Product getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
         return productService.getProductById(id);
     }
 
@@ -52,6 +52,18 @@ public class ProductController {
     public List<Product> getAllProducts(){
         return productService.getAllProducts();
     }
+
+    @PostMapping()
+    public Product createProduct(@RequestBody Product product){
+        return productService.addProduct(product);
+    }
+
+    @DeleteMapping("/{id}")
+    public Product deleteProduct(@PathVariable("id") Long id) throws ProductNotFoundException {
+        return productService.deleteProductById(id);
+    }
+
+
 
 //    public String getProductByCategory(String category){
 //

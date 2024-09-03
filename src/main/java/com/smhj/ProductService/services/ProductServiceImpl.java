@@ -20,14 +20,15 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public void deleteProductById() {
-
+    public Product deleteProductById(Long id) {
+        return null;
     }
 
     @Override
-    public void addProduct() {
-
+    public Product addProduct(Product product) {
+        return null;
     }
+
 
     @Override
     public void updateProductById() {
