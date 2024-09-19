@@ -36,7 +36,7 @@ public class FakeStoreProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product deleteProductById(Long id) {
+    public Product deleteProductById(Long id) throws ProductNotFoundException {
         return getProductFromFakeStoreProductDto(fakeStoreClient.deleteProductById(id));
     }
 
@@ -47,8 +47,19 @@ public class FakeStoreProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void updateProductById() {
+    public Product updateProductById(Long id, Product product) {
+        return getProductFromFakeStoreProductDto(
+                fakeStoreClient.updateProductById(id, getFakeStoreProductDto(product)));
+    }
 
+    @Override
+    public List<Category> getAllCategories() {
+        return null;
+    }
+
+    @Override
+    public List<Product> getAllCategoriesByName(String categoryName) {
+        return null;
     }
 
     private Product getProductFromFakeStoreProductDto(FakeStoreProductDto fakeStoreProductDto){
@@ -72,6 +83,7 @@ public class FakeStoreProductServiceImpl implements ProductService {
         fakeStoreProductDto.setDescription(product.getDescription());
         fakeStoreProductDto.setCategory(product.getCategory().getName());
         fakeStoreProductDto.setPrice(product.getPrice());
+        fakeStoreProductDto.setImage("https://image.com");
         return fakeStoreProductDto;
     }
 }

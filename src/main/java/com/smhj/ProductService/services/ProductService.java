@@ -1,7 +1,7 @@
 package com.smhj.ProductService.services;
 
-import com.smhj.ProductService.dtos.FakeStoreProductDto;
 import com.smhj.ProductService.exceptions.ProductNotFoundException;
+import com.smhj.ProductService.models.Category;
 import com.smhj.ProductService.models.Product;
 
 import java.util.List;
@@ -12,9 +12,13 @@ public interface ProductService {
 
     List<Product> getAllProducts();
 
-    Product deleteProductById(Long id);
+    Product deleteProductById(Long id) throws ProductNotFoundException;
 
     Product addProduct(Product product);
 
-    void updateProductById();
+    Product updateProductById(Long id, Product product);
+
+    List<Category> getAllCategories();
+
+    List<Product> getAllCategoriesByName(String categoryName);
 }

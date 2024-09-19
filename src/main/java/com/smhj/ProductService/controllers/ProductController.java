@@ -2,6 +2,7 @@ package com.smhj.ProductService.controllers;
 
 import com.smhj.ProductService.dtos.ExceptionDto;
 import com.smhj.ProductService.exceptions.ProductNotFoundException;
+import com.smhj.ProductService.models.Category;
 import com.smhj.ProductService.models.Product;
 import com.smhj.ProductService.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,12 +64,20 @@ public class ProductController {
         return productService.deleteProductById(id);
     }
 
+    @PutMapping("/{id}")
+    public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product product) {
+        return productService.updateProductById(id, product);
+    }
 
+    @GetMapping("/categories")
+    public List<Category> getAllCategories(){
+        return productService.getAllCategories();
+    }
 
-//    public String getProductByCategory(String category){
-//
-//    }
-
+    @GetMapping("/category/{categoryName}")
+    public List<Product> getAllCategoriesByName(@PathVariable("categoryName") String categoryName){
+        return productService.getAllCategoriesByName(categoryName);
+    }
 
 }
 

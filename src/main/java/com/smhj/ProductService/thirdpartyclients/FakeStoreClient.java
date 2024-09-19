@@ -8,6 +8,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpMessageConverterExtractor;
 import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestTemplate;
@@ -33,7 +34,7 @@ public class FakeStoreClient {
         ResponseEntity<FakeStoreProductDto> responseEntity = restTemplate.getForEntity(specificProductUrl, FakeStoreProductDto.class, id);
         if(responseEntity.getBody() == null){
             // throw an Exception
-            throw new ProductNotFoundException("Product Not Found for id : " + id);
+            throw new ProductNotFoundException(id, "Product Not Found for id : " + id);
         }
         return responseEntity.getBody();
     }
@@ -44,11 +45,15 @@ public class FakeStoreClient {
         return responseEntity.getBody();
     }
 
-    public FakeStoreProductDto deleteProductById(Long id) {
+    public FakeStoreProductDto deleteProductById(Long id) throws ProductNotFoundException {
         RestTemplate restTemplate = restTemplateBuilder.build();
         RequestCallback requestCallback = restTemplate.acceptHeaderRequestCallback(FakeStoreProductDto.class);
         ResponseExtractor<ResponseEntity<FakeStoreProductDto>> responseExtractor = restTemplate.responseEntityExtractor(FakeStoreProductDto.class);
         ResponseEntity<FakeStoreProductDto> responseEntity = restTemplate.execute(specificProductUrl, HttpMethod.DELETE, requestCallback, responseExtractor, id);
+        if(responseEntity.getBody() == null){
+            // throw an Exception
+            throw new ProductNotFoundException(id, "Product Not Found for id : " + id);
+        }
         return responseEntity.getBody();
     }
 
@@ -58,9 +63,12 @@ public class FakeStoreClient {
         return responseEntity.getBody();
     }
 
-    public void updateProductById() {
-
+    public FakeStoreProductDto updateProductById(Long id, FakeStoreProductDto fakeStoreProduct) {
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        RequestCallback requestCallback = restTemplate.httpEntityCallback(fakeStoreProduct, FakeStoreProductDto.class);
+        ResponseExtractor<ResponseEntity<FakeStoreProductDto>> responseExtractor = restTemplate.responseEntityExtractor(FakeStoreProductDto.class);
+        ResponseEntity<FakeStoreProductDto> responseEntity = restTemplate.execute(specificProductUrl, HttpMethod.PUT, requestCallback, responseExtractor, id);
+        return responseEntity.getBody();
     }
-
 
 }

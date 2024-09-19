@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ProductControllerAdvice {
 
     @ExceptionHandler(ProductNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     private ExceptionDto handleProductNotFoundException(ProductNotFoundException e){
         ExceptionDto exceptionDto = new ExceptionDto();
