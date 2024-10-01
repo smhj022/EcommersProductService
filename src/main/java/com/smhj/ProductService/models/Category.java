@@ -1,9 +1,6 @@
 package com.smhj.ProductService.models;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import jdk.dynalink.linker.LinkerServices;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,12 +13,17 @@ import java.util.List;
 @Setter
 @Entity
 public class Category extends BaseModel {
+    @Column(unique = true, nullable = false)
     private String name;
 }
 
 /*
 
 Lazy Vs Eager loading
+
+
+single attribute default fetch type is eager;
+multiple attribute default fetch type is lazy;
 
 Category and Product
 to fetch a category by id

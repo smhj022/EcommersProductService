@@ -1,6 +1,7 @@
 package com.smhj.ProductService.services;
 
 import com.smhj.ProductService.dtos.FakeStoreProductDto;
+import com.smhj.ProductService.exceptions.CategoryNotFoundException;
 import com.smhj.ProductService.exceptions.ProductNotFoundException;
 import com.smhj.ProductService.models.Category;
 import com.smhj.ProductService.models.Product;
@@ -53,12 +54,7 @@ public class FakeStoreProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Category> getAllCategories() {
-        return null;
-    }
-
-    @Override
-    public List<Product> getAllCategoriesByName(String categoryName) {
+    public List<Product> getProductsByCategory(Long id) throws CategoryNotFoundException {
         return null;
     }
 

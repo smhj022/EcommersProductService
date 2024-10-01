@@ -1,10 +1,7 @@
 package com.smhj.ProductService.models;
 
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,10 +13,16 @@ import java.util.List;
 @Setter
 @Entity
 public class Product extends BaseModel {
+    @Column(nullable = false)
     private String title;
+
     private String description;
     private Long price;
+    private String image;
+    private Long quantity;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     private Category category;
+
+    private boolean isAvailable;
 }

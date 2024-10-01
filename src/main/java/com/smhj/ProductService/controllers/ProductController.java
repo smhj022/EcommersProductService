@@ -1,6 +1,7 @@
 package com.smhj.ProductService.controllers;
 
 import com.smhj.ProductService.dtos.ExceptionDto;
+import com.smhj.ProductService.exceptions.CategoryNotFoundException;
 import com.smhj.ProductService.exceptions.ProductNotFoundException;
 import com.smhj.ProductService.models.Category;
 import com.smhj.ProductService.models.Product;
@@ -8,6 +9,7 @@ import com.smhj.ProductService.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -33,30 +35,24 @@ public class ProductController {
 
     //  Constructor injection ->  Best Practice
     @Autowired
-    public ProductController(@Qualifier("FakeProductService") ProductService productService){
+    public ProductController(@Qualifier("SelfProductService") ProductService productService){
         this.productService = productService;
     }
 
-
-//    @Autowired -> setter based injection
-//    public void setProductService(ProductService productService){
-//        this.productService = productService;
-//    }
-
-    // request path
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
-        return productService.getProductById(id);
+    public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
+        Product product = productService.getProductById(id);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @GetMapping()
-    public List<Product> getAllProducts(){
-        return productService.getAllProducts();
+    public ResponseEntity<List<Product>> getAllProducts(){
+        return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
     }
 
     @PostMapping()
-    public Product createProduct(@RequestBody Product product){
-        return productService.addProduct(product);
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) throws CategoryNotFoundException {
+        return new ResponseEntity<>(productService.addProduct(product), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -69,16 +65,10 @@ public class ProductController {
         return productService.updateProductById(id, product);
     }
 
-    @GetMapping("/categories")
-    public List<Category> getAllCategories(){
-        return productService.getAllCategories();
+    @GetMapping("/category")
+    public ResponseEntity<List<Product>> getProductByCategory(@RequestParam Long categoryId) throws CategoryNotFoundException {
+        return new ResponseEntity<>(productService.getProductsByCategory(categoryId), HttpStatus.OK);
     }
-
-    @GetMapping("/category/{categoryName}")
-    public List<Product> getAllCategoriesByName(@PathVariable("categoryName") String categoryName){
-        return productService.getAllCategoriesByName(categoryName);
-    }
-
 }
 
 /*

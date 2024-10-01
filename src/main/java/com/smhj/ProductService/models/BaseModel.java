@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 
 // cardinality (relationships)
 //https://www.baeldung.com/jpa-cascade-types
@@ -18,8 +20,25 @@ import lombok.Setter;
 @Setter
 @MappedSuperclass
 public class BaseModel {
-    // long vs Long -> we are using Long as it will help in serialization
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = new Date();  // Set the creation date to the current date
+        updatedAt = new Date();  // Set the update date to the current date
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = new Date();  // Update the date to the current date
+    }
 }
