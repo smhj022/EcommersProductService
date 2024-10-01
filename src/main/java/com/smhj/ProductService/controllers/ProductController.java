@@ -1,9 +1,7 @@
 package com.smhj.ProductService.controllers;
 
-import com.smhj.ProductService.dtos.ExceptionDto;
 import com.smhj.ProductService.exceptions.CategoryNotFoundException;
 import com.smhj.ProductService.exceptions.ProductNotFoundException;
-import com.smhj.ProductService.models.Category;
 import com.smhj.ProductService.models.Product;
 import com.smhj.ProductService.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +38,8 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
+    public ResponseEntity<Product> getProductById(@PathVariable("id") Long id)
+            throws ProductNotFoundException {
         Product product = productService.getProductById(id);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
@@ -51,7 +50,8 @@ public class ProductController {
     }
 
     @PostMapping()
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) throws CategoryNotFoundException {
+    public ResponseEntity<Product> createProduct(@RequestBody Product product)
+            throws CategoryNotFoundException {
         return new ResponseEntity<>(productService.addProduct(product), HttpStatus.OK);
     }
 
@@ -61,12 +61,14 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product product) {
+    public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product product)
+            throws CategoryNotFoundException, ProductNotFoundException {
         return productService.updateProductById(id, product);
     }
 
     @GetMapping("/category")
-    public ResponseEntity<List<Product>> getProductByCategory(@RequestParam Long categoryId) throws CategoryNotFoundException {
+    public ResponseEntity<List<Product>> getProductByCategory(@RequestParam Long categoryId)
+            throws CategoryNotFoundException {
         return new ResponseEntity<>(productService.getProductsByCategory(categoryId), HttpStatus.OK);
     }
 }

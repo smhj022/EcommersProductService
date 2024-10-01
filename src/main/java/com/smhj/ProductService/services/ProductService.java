@@ -17,7 +17,7 @@ public interface ProductService {
 
     Product addProduct(Product product) throws CategoryNotFoundException;
 
-    Product updateProductById(Long id, Product product);
+    Product updateProductById(Long id, Product product) throws ProductNotFoundException, CategoryNotFoundException;
 
     List<Product> getProductsByCategory(Long id) throws CategoryNotFoundException;
 

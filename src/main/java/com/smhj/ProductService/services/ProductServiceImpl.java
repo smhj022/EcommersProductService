@@ -1,19 +1,14 @@
 package com.smhj.ProductService.services;
 
 import com.smhj.ProductService.exceptions.CategoryNotFoundException;
-import com.smhj.ProductService.exceptions.DuplicateCategoryFoundException;
 import com.smhj.ProductService.exceptions.ProductNotFoundException;
 import com.smhj.ProductService.models.Category;
 import com.smhj.ProductService.models.Product;
 import com.smhj.ProductService.repos.CategoryRepo;
 import com.smhj.ProductService.repos.ProductRepo;
-import org.springframework.context.annotation.Primary;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service("SelfProductService")
 public class ProductServiceImpl implements ProductService{
@@ -52,24 +47,19 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Product updateProductById(Long id, Product product) {
+    public Product updateProductById(Long id, Product product) throws ProductNotFoundException, CategoryNotFoundException {
         //check if product is available or not
-        Optional<Product> productObj = productRepo.findById(id);
+        Product productObj = productRepo.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException(id, "Product with id " + id + " not available"));
 
-        if(productObj.isPresent()){
-            // check if category is available or not
-            Optional<Category> categoryOptional = categoryRepo.findByName(product.getCategory().getName());
-            if(categoryOptional.isPresent()){
-                product.setCategory(categoryOptional.get());
-            } else {
-                Category category = categoryRepo.save(product.getCategory());
-                product.setCategory(category);
-            }
-            product.setId(id);
-            productRepo.save(product);
-            return product;
-        }
-        return null;
+        // check if category is available or not;
+        Category managedCategory = categoryRepo.findById(product.getCategory().getId())
+                .orElseThrow(() -> new CategoryNotFoundException(product.getCategory().getId() , "Category not found"));
+
+        product.setId(id);
+        // Update the product
+        productRepo.save(product);
+        return product;
     }
 
     @Override
