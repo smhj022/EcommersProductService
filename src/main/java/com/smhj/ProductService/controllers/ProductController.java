@@ -1,5 +1,7 @@
 package com.smhj.ProductService.controllers;
 
+import com.smhj.ProductService.commons.AuthCommon;
+import com.smhj.ProductService.dtos.UserDto;
 import com.smhj.ProductService.exceptions.CategoryNotFoundException;
 import com.smhj.ProductService.exceptions.ProductNotFoundException;
 import com.smhj.ProductService.models.Product;
@@ -29,17 +31,25 @@ public class ProductController {
     //@Autowired -> field injection
     // constructor injection
     private final ProductService productService;
+    private final AuthCommon authCommon;
 
 
     //  Constructor injection ->  Best Practice
     @Autowired
-    public ProductController(@Qualifier("SelfProductService") ProductService productService){
+    public ProductController(@Qualifier("SelfProductService") ProductService productService,
+                             AuthCommon authCommon){
         this.productService = productService;
+        this.authCommon = authCommon;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable("id") Long id)
-            throws ProductNotFoundException {
+    public ResponseEntity<Product> getProductById(
+            @PathVariable("id") Long id) throws ProductNotFoundException {
+
+//        UserDto userDto = authCommon.validateToken(token);
+//        if(userDto == null){
+//            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+//        }
         Product product = productService.getProductById(id);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }

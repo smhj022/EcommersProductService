@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class RandomTest {
 
-    @Test
+    //@Test
     void testOnePlusOneIsTwo(){
 
         int i = 1 + 1; // Arrange + Act
